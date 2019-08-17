@@ -1,0 +1,1193 @@
+{
+	"info": {
+		"_postman_id": "ca3d07f2-cdaf-4473-b431-0a05c94148c3",
+		"name": "Who-Call",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "498d0401-dcf7-4e57-8206-f408ba87a6ca",
+								"exec": [
+									"if(pm.response.code == '200'){",
+									"    var error = true;",
+									"    var bearer_token;",
+									"    // check the response xml or json",
+									"    if(xml2Json(responseBody)){",
+									"        // converting xml response to json",
+									"        var jsonObject = xml2Json(responseBody); ",
+									"        if(jsonObject.response.status == 'success'){",
+									"            // Extracting the token from the response ",
+									"            bearer_token = jsonObject.response.api_token;",
+									"            error = false;",
+									"        } ",
+									"    } else {",
+									"        // Parsing the response returned by the request.",
+									"        var jsonData = pm.response.json(); ",
+									"        if(jsonData.status == 'success'){",
+									"            // Extracting the token from the response ",
+									"            bearer_token = jsonData.api_token;",
+									"            error = false;",
+									"        }",
+									"    }",
+									"    ",
+									"    if(!error){",
+									"        // Setting the token as a global variable.",
+									"        pm.globals.set(\"who_call_bearer_token\", bearer_token);",
+									"    }",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "01839300418",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "phone",
+											"value": "01829239127",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 15:17:41 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully Logged in!\",\n    \"api_token\": \"UzJFU3JteXNFQUJtUUVDSElHUlEzUjJrcktYdG1KTURLa1Vjdks3TA==\"\n}"
+						},
+						{
+							"name": "Error - Phone or Password did not match!",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "phone",
+											"value": "01829239127",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "12345",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 15:18:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "63"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Phone or Password did not match!\"\n}"
+						}
+					]
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Muntaha",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Ibn Ahmed",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "01839300418",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "first_name",
+											"value": "Abdul",
+											"type": "text"
+										},
+										{
+											"key": "last_name",
+											"value": "Al Jayed",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "01829239127",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 15:00:16 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "98"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Your account created successfully, Now logged in to step forward.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Phonebook",
+			"item": [
+				{
+					"name": "Save Phone Number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "numbers",
+									"value": "[{\"name\":\"shanto\",\"phone\":\"01939300418\"}]",
+									"description": "array of object. please follow this structure to save numbers. ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/phone-number",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"phone-number"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "numbers",
+											"value": "[{\"name\":\"jamil\",\"phone\":\"345678\"},{\"name\":\"kamil\",\"phone\":\"3445675678\"}]",
+											"description": "array of object",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/phone-number",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"phone-number"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 17:49:06 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Numbers has been saved.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get info by phone number",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/phone-number/018393004188",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"phone-number",
+								"018393004188"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/phone-number/01839300418",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"phone-number",
+										"01839300418"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 18:34:00 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "99"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Number info found successfully!\",\n    \"info\": {\n        \"name\": \"Ibn ahmed [uits]\"\n    }\n}"
+						},
+						{
+							"name": "Error - Number not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/phone-number/018393004188",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"phone-number",
+										"018393004188"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 18:34:20 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Number not found!\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Block",
+			"item": [
+				{
+					"name": "Block a number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "01839300418",
+									"description": "phone number",
+									"type": "text"
+								},
+								{
+									"key": "reason",
+									"value": "I dont like him",
+									"description": "type reason (optional)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/block",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"block"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "phone",
+											"value": "01839300418",
+											"description": "phone number",
+											"type": "text"
+										},
+										{
+											"key": "reason",
+											"value": "I dont like him",
+											"description": "type reason (optional)",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/block",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"block"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 19:44:29 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"You block the number 01839300418\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Report",
+			"item": [
+				{
+					"name": "Report a number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "01839300419",
+									"type": "text"
+								},
+								{
+									"key": "reason",
+									"value": "he is connected with crime",
+									"description": "reason (required)",
+									"type": "text"
+								},
+								{
+									"key": "reason_description",
+									"value": "he is connected with crime at area-51. I saw him with AK-47",
+									"description": "reason description (optional)",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/report",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"report"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "phone",
+											"value": "01839300419",
+											"type": "text"
+										},
+										{
+											"key": "reason",
+											"value": "he is connected with crime",
+											"description": "reason (required)",
+											"type": "text"
+										},
+										{
+											"key": "reason_description",
+											"value": "he is connected with crime at area-51. I saw him with AK-47",
+											"description": "reason description (optional)",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/report",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"report"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 19:53:26 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"You submitted a report for this number 01839300419\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Review",
+			"item": [
+				{
+					"name": "Get review by phone number",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/review/01939300418",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review",
+								"01939300418"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save review for phone number",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "01839300418",
+									"description": "phone number",
+									"type": "text"
+								},
+								{
+									"key": "review",
+									"value": "",
+									"description": "review (optional)",
+									"type": "text"
+								},
+								{
+									"key": "rating",
+									"value": "-3",
+									"description": "rating out of five",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/review",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"review"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "phone",
+											"value": "01839300418",
+											"type": "text"
+										},
+										{
+											"key": "review",
+											"value": "he is not bad",
+											"type": "text"
+										},
+										{
+											"key": "rating",
+											"value": "3",
+											"description": "rating out of five",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/review",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"review"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 19:06:18 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Review has been saved.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "current user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{who_call_bearer_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{who_call_bearer_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/user",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 17 Aug 2019 15:46:19 GMT"
+								},
+								{
+									"key": "Server",
+									"value": "Apache/2.4.39 (Win64) OpenSSL/1.1.1b PHP/7.3.5"
+								},
+								{
+									"key": "Vary",
+									"value": "Authorization"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.3.5"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Length",
+									"value": "265"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5, max=100"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Current User\",\n    \"user\": {\n        \"id\": 1,\n        \"first_name\": \"Abdul\",\n        \"last_name\": \"Abdul\",\n        \"phone\": \"01829239127\",\n        \"api_token\": \"UzJFU3JteXNFQUJtUUVDSElHUlEzUjJrcktYdG1KTURLa1Vjdks3TA==\",\n        \"created_at\": \"2019-08-17 15:00:18\",\n        \"updated_at\": \"2019-08-17 15:17:41\"\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "3f36788b-0e34-4f4e-82e7-8ea269f4e488",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ee9efa18-e027-4bd1-9e4b-72d44daddcfb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7e37efc6-e5c1-43e3-a696-50ad092793b1",
+			"key": "base_url",
+			"value": "http://localhost/who-call/public/api",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "9f8a1bf3-8814-473c-9891-7e278b437dc6",
+			"key": "base_url",
+			"value": "http://ibnahmed.bd.education/public/api",
+			"type": "string"
+		}
+	]
+}
